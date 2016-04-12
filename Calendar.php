@@ -1,6 +1,5 @@
 <html>
-
-    <?php
+<?php
 $servername = "localhost";
 $username = "root";
 $password = "root";
@@ -125,50 +124,140 @@ if ($conn->connect_error) {
         ?>
         <table>
             <tr>
-                <th><input type='button' value='<' name='previousbutton' onclick="goLastMonth(<?php echo $month.",".$year;?>)"></td>
-                <th colspan="5"><?php echo $monthName.", ".$year?></td>
-                <th><input type='button' value='>' name='nextbutton' onclick="goNextMonth(<?php echo $month.",".$year;?>)"></td>
+                <th class="blue"><input type='button' value='<' name='previousbutton' onclick="goLastMonth(<?php echo $month.",".$year;?>)"></td>
+                <th class="blue" colspan="5"><?php echo $monthName.", ".$year?></td>
+                <th class="blue"><input type='button' value='>' name='nextbutton' onclick="goNextMonth(<?php echo $month.",".$year;?>)"></td>
             </tr>
             
             <tr>
-                <th>Sun</th>
-                <th>Mon</th>
-                <th>Tue</th>
-                <th>Wed</th>
-                <th>Thu</th>
-                <th>Fri</th>
-                <th>Sat</th>
+                <th class="violet">Sun</th>
+                <th class="violet">Mon</th>
+                <th class="violet">Tue</th>
+                <th class="violet">Wed</th>
+                <th class="violet">Thu</th>
+                <th class="violet">Fri</th>
+                <th class="violet">Sat</th>
             </tr>
 
             <?php
                 echo "<tr>";
                     
-                    for($i = 1; $i < $numDays+1; $i++, $counter++){
-$timeStamp = strtotime("$year-$month-$i");
-if($i == 1) {
- $firstDay = date("w", $timeStamp);
- for($j = 0; $j < $firstDay; $j++, $counter++) {
- echo "<td> </td>";
- }
-}
-if($counter % 7 == 0) {
-echo"</tr><tr>";
-}
+                    for ($i = 1; $i < $numDays+1; $i++, $counter++) 
+                    {
+                        $sql = "SELECT date FROM Event ORDER BY date";
+                        $result = $conn->query($sql);
+                        $hasEvent = false;
+                        
+                        if ($result->num_rows > 0){
+                            while($row = $result->fetch_assoc()){
+                                $time = strtotime($row["date"]);
+                                
+                                if (date('Y', $time) == $year && date('m', $time) == $month && date('d', $time) == $i)
+                                {
+                                    $hasEvent = true;
+                                    break;
+                                }
 
-
-echo "<td>$i</td>";
-
-}
-while($counter % 7 != 0) {
- echo "<td></td>";
- $counter++;
-}
-echo "</tr>";
-?>
-</table>
+                            }
+                        }
+                        else
+                        {
+                            $hasEvent = false;
+                        }
+                        
+                        $timeStamp = strtotime("$year-$month-$i");
+                        
+                        if($i == 1)
+                        {
+                            $firstDay = date ("w", $timeStamp);
+                            for ($j = 0; $j < $firstDay; $j++, $counter++)
+                            {
+                                //Print Blank Space
+                                echo "<td class= 'gray'>&nbsp;</td>";
+                            }
+                        }
+                        
+                        if($counter % 7 == 0)
+                        {
+                            echo "</tr><tr>";
+                        }
+                        
+                        $monthstring = $month;
+                        $monthlength = strlen($monthstring);
+                        $daystring = $i;
+                        $daylength = strlen($daystring);
+                        if($monthlength <= 1)
+                        {
+                            $monthstring = "0".$monthstring;
+                        }
+                        if($daylength <=1)
+                        {
+                            $daystring = "0".$daystring;
+                        }
+                        
+                        if($year < date("Y"))
+                        {
+                            echo "<td class='gray'>".$i."</td>";
+                        }
+                        else if($year > date("Y"))
+                        {
+                            if($hasEvent == 1)
+                                    {
+                                        echo "<td class='event'><a href='http://google.com'>".$i."</td>";
+                                    }
+                                    else
+                                    {
+                                        echo "<td>".$i."</td>";
+                                    }
+                        }
+                        else
+                        {
+                            if($month < date("n"))
+                            {
+                                echo "<td class='gray'>".$i."</td>";
+                            }
+                            else if($month > date("n"))
+                            {
+                                if($hasEvent == 1)
+                                    {
+                                        echo "<td class='event'><a href='http://google.com'>".$i."</td>";
+                                    }
+                                    else
+                                    {
+                                        echo "<td>".$i."</td>";
+                                    }
+                            }
+                            else
+                            {
+                                if($i < date("j"))
+                                {
+                                    echo "<td class='gray'>".$i."</td>";
+                                }
+                                else
+                                {
+                                    if($hasEvent == 1)
+                                    {
+                                        echo "<td class='event'><a href='http://google.com'>".$i."</td>";
+                                    }
+                                    else
+                                    {
+                                        echo "<td>".$i."</td>";
+                                    }
+                                }
+                            }
+                        }
+                        
+                        //echo "<td>".$i."</td>";
+                        //echo "<td><a href='".$_SERVER['PHP_SELF']."?month=".$monthstring."&day=".$daystring."&year=".$year."&v=true'>".$i."</td>";
+                        
+                        
+                    }
+                    
+                echo "</tr>";    
+            ?>
+        </table>
     <br>
-
- <?php
+    <?php
 $sql = "SELECT id, title, date, time, link FROM Event ORDER BY date";
 $result = $conn->query($sql);
 
