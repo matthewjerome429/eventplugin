@@ -28,6 +28,34 @@ if ($conn->connect_error) {
                 height: 50px;
                 text-align: center;
             }
+            
+            th.violet, tr.violet{
+                background-color: #6f2977;
+            }
+            
+            td.gray{
+                background-color: lightgray;
+            }
+            
+            th.blue, tr.blue{
+                background-color: #0086d4;
+            }
+            
+            th.date{
+                width: 90px;
+            }
+            
+            th.time{
+                width: 70px;
+            }
+            
+            th.title{
+                width: 202px;
+            }
+            
+            td.event{
+                background-color: #0086d4;
+            }
         </style>
         
         <script>
