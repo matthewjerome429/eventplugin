@@ -140,6 +140,76 @@ echo "</tr>";
 </table>
     <br>
 
+ <?php
+$sql = "SELECT id, title, date, time, link FROM Event ORDER BY date";
+$result = $conn->query($sql);
+
+if ($result->num_rows > 0) {
+    echo "<table><tr class='blue'><th colspan='3' >Upcoming Events</th><tr>";
+    echo "<tr class='violet'><th class='date'>Date</th><th class='time'>Time</th><th class='title'>Title</th></tr>";
+     // output data of each row
+     while($row = $result->fetch_assoc()) {
+         
+         $time = strtotime($row["date"]);
+         
+         if(date('Y', $time) > date("Y"))
+         {
+             $link = $row["link"];
+             echo "<tr>";
+             echo "<td>" .$row["date"]."</td>";
+             echo "<td>" .$row["time"]. "</td>";
+             echo "<td><a href=".$link." target='_blank'>" .$row["title"]. "</td>";
+             echo "</tr>";
+         }
+         else
+         {
+             if(date('m', $time) > date("m"))
+             {
+                 $link = $row["link"];
+                 echo "<tr>";
+                 echo "<td>" .$row["date"]."</td>";
+                 echo "<td>" .$row["time"]. "</td>";
+                 echo "<td><a href=".$link." target='_blank'>" .$row["title"]. "</td>";
+                 echo "</tr>";
+             }
+             else if(date('m', $time) == date("m"))
+             {
+                 if(date('d', $time) >= date("j"))
+                 {
+                     $link = $row["link"];
+                     echo "<tr>";
+                     echo "<td>" .$row["date"]."</td>";
+                     echo "<td>" .$row["time"]. "</td>";
+                     echo "<td><a href=".$link." target='_blank'>" .$row["title"]. "</td>";
+                     echo "</tr>";
+                 }
+             }
+
+         }
+         
+         
+         
+         /*if (date('Y', $time) >= date("Y") && date('m', $time) >= date("m") && date('d', $time) >= date("j"))
+         {
+             $link = $row["link"];
+             echo "<tr>";
+             echo "<td>" .$row["date"]."</td>";
+             echo "<td>" .$row["time"]. "</td>";
+             echo "<td><a href=".$link.">" .$row["title"]. "</td>";
+             echo "</tr>";
+         }*/
+         
+     }
+     echo "</table>";
+    } else {
+    echo "<table><tr class='blue'><th colspan='3' >Upcoming Events</th></tr>";
+    echo "<tr class='violet'><th class='date'>Date</th><th class='time'>Time</th><th class='title'>Title</th></tr>";
+    echo "<tr><th colspan='3'>More events are coming!</th></tr>";
+    echo "</table>";
+    }
+
+$conn->close();
+    ?>
     </body>
 
 </html>
