@@ -123,7 +123,7 @@ if ($conn->connect_error) {
         $counter = 0;
         ?>
         
-        //Print Event Calendar
+        <!--Print Event Calendar-->
         <table>
             <tr>
                 <th class="blue"><input type='button' value='<' name='previousbutton' onclick="goLastMonth(<?php echo $month.",".$year;?>)"></td>
@@ -269,7 +269,7 @@ if ($conn->connect_error) {
         </table>
     <br>
 
-    //Print Event List
+    <!--Print Event List-->
     <?php
     $sql = "SELECT id, title, date, time, link FROM Event ORDER BY date";
     $result = $conn->query($sql);
