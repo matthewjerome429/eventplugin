@@ -207,6 +207,7 @@ if ($conn->connect_error) {
                             if($hasEvent == 1)
                                     {
                                         //highlight date that has event
+                                        //fill url with eventpage url!!!!!
                                         echo "<td class='event'><a href='http://google.com'>".$i."</td>";
                                     }
                                     else
@@ -227,6 +228,7 @@ if ($conn->connect_error) {
                                 if($hasEvent == 1)
                                     {
                                         //highlight date that has event
+                                        //fill url with eventpage url!!!!!
                                         echo "<td class='event'><a href='http://google.com'>".$i."</td>";
                                     }
                                     else
@@ -247,6 +249,7 @@ if ($conn->connect_error) {
                                     if($hasEvent == 1)
                                     {
                                         //highlight date that has event
+                                        //fill url with eventpage url!!!!!
                                         echo "<td class='event'><a href='http://google.com'>".$i."</td>";
                                     }
                                     else
