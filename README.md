@@ -1,4 +1,4 @@
-# eventplugin
+#Event Plugin
 Event plugin for LondonCancer
 
 
