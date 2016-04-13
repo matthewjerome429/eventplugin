@@ -122,6 +122,8 @@ if ($conn->connect_error) {
         
         $counter = 0;
         ?>
+        
+        //Print Event Calendar
         <table>
             <tr>
                 <th class="blue"><input type='button' value='<' name='previousbutton' onclick="goLastMonth(<?php echo $month.",".$year;?>)"></td>
@@ -197,16 +199,19 @@ if ($conn->connect_error) {
                         
                         if($year < date("Y"))
                         {
+                            //fill past date with gray
                             echo "<td class='gray'>".$i."</td>";
                         }
                         else if($year > date("Y"))
                         {
                             if($hasEvent == 1)
                                     {
+                                        //highlight date that has event
                                         echo "<td class='event'><a href='http://google.com'>".$i."</td>";
                                     }
                                     else
                                     {
+                                        //Normal date
                                         echo "<td>".$i."</td>";
                                     }
                         }
@@ -214,16 +219,19 @@ if ($conn->connect_error) {
                         {
                             if($month < date("n"))
                             {
+                                //fill past date with gray
                                 echo "<td class='gray'>".$i."</td>";
                             }
                             else if($month > date("n"))
                             {
                                 if($hasEvent == 1)
                                     {
+                                        //highlight date that has event
                                         echo "<td class='event'><a href='http://google.com'>".$i."</td>";
                                     }
                                     else
                                     {
+                                        //Normal date
                                         echo "<td>".$i."</td>";
                                     }
                             }
@@ -231,16 +239,19 @@ if ($conn->connect_error) {
                             {
                                 if($i < date("j"))
                                 {
+                                    //fill past date with gray
                                     echo "<td class='gray'>".$i."</td>";
                                 }
                                 else
                                 {
                                     if($hasEvent == 1)
                                     {
+                                        //highlight date that has event
                                         echo "<td class='event'><a href='http://google.com'>".$i."</td>";
                                     }
                                     else
                                     {
+                                        //Normal date
                                         echo "<td>".$i."</td>";
                                     }
                                 }
@@ -257,18 +268,21 @@ if ($conn->connect_error) {
             ?>
         </table>
     <br>
-    <?php
-$sql = "SELECT id, title, date, time, link FROM Event ORDER BY date";
-$result = $conn->query($sql);
 
-if ($result->num_rows > 0) {
-    echo "<table><tr class='blue'><th colspan='3' >Upcoming Events</th><tr>";
-    echo "<tr class='violet'><th class='date'>Date</th><th class='time'>Time</th><th class='title'>Title</th></tr>";
-     // output data of each row
-     while($row = $result->fetch_assoc()) {
+    //Print Event List
+    <?php
+    $sql = "SELECT id, title, date, time, link FROM Event ORDER BY date";
+    $result = $conn->query($sql);
+
+    if ($result->num_rows > 0) {
+        echo "<table><tr class='blue'><th colspan='3' >Upcoming Events</th><tr>";
+        echo "<tr class='violet'><th class='date'>Date</th><th class='time'>Time</th><th class='title'>Title</th></tr>";
+        // output data of each row
+        while($row = $result->fetch_assoc()) {
          
          $time = strtotime($row["date"]);
          
+         //print future year's events
          if(date('Y', $time) > date("Y"))
          {
              $link = $row["link"];
@@ -280,6 +294,7 @@ if ($result->num_rows > 0) {
          }
          else
          {
+             //print future month's events
              if(date('m', $time) > date("m"))
              {
                  $link = $row["link"];
@@ -291,6 +306,7 @@ if ($result->num_rows > 0) {
              }
              else if(date('m', $time) == date("m"))
              {
+                 //print future date's events
                  if(date('d', $time) >= date("j"))
                  {
                      $link = $row["link"];
